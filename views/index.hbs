@@ -1,4 +1,27 @@
-<div id="app">
+{{#contentFor "head"}}
+  <script type="text/x-template" id="years-template">
+    <div id="app">
+        <div id="status">
+            \{{message}}
+        </div>
+        <ol class="year">
+            <li v-for="(year, y, i) in packs.items" v-on:click="expandYear" v-bind:data-year="y">
+                <h1>\{{y}}</h1>
+                <ol class="packContents">
+                    <li v-for="(pack, p, i) in year" v-on:mouseover="message = p" v-bind:data-pt-title="p" class="protip" v-on:click="expandPack" v-bind:data-pack="p">
+                        <h2>\{{p}}</h2>
+                        <ol class="files">
+                            <li v-for="(file, f, i) in pack.files">\{{f}}</li>
+                        </ol>
+                    </li>
+                </ol>
+            </li>
+        </ol>
+    </div>
+  </script>
+{{/contentFor}}
+
+{{!--<div id="app">
     <div id="status">
         \{{message}}
     </div>
@@ -15,4 +38,4 @@
             </ol>
         </li>
     </ol>
-</div>
+</div>--}}

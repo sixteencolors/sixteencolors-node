@@ -17,19 +17,26 @@
     crossorigin="anonymous"></script>
   <script src="//min.gitcdn.xyz/repo/DoclerLabs/Protip/master/protip.min.js"></script>
   <script src="https://unpkg.com/vue/dist/vue.js"></script>  
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <script src="https://cdn.jsdelivr.net/vue.resource/1.0.3/vue-resource.min.js"></script>
+
 
   <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
   <![endif]-->
-  {{{block head}}}
+  {{{block "head"}}}
 </head>
 
 <body>
-  <header>
-      <h1>Sixteen Colors ANSI Art and ASCII Art Archive</h1>
-  </header>
-  <div id="content">
-    {{{body}}}
+  <div id="app">
+    <header>
+        <h1>Sixteen Colors ANSI Art and ASCII Art Archive</h1>
+        <router-link to="/year">Packs</router-link>
+        <router-link to="/bar">Go to Bar</router-link>
+    </header>
+    <div id="content">
+        <router-view></router-view>
+    </div>
   </div>
 
   <script src="javascripts/site.js"></script>  

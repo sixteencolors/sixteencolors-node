@@ -9,7 +9,6 @@ var lessMiddleware = require('less-middleware');
 
 var index = require('./routes/index');
 var importer = require('./routes/importer');
-var users = require('./routes/users');
 
 var app = express();
 
@@ -36,7 +35,6 @@ app.use(lessMiddleware(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/users', users);
 app.use('/importer', importer);
 
 // catch 404 and forward to error handler

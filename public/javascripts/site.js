@@ -1,24 +1,24 @@
-var app = new Vue({
-  el: '#app',
-  data: {
-    message: 'Loading',
-    packs: {
-        get: function() {
-            $.ajax('/data/site.json')
-                .done(function(data) {
-                    app.message ='Done';
-                    app.packs.items = data;
-                    
-                })
-                .fail(function() {
-                    app.message = 'An error ocurred';
-                })
-        },
-        items: {}
-    },
-    years : []
+Vue.component('years', {
+  template: '#years-template',
+  data: function () {
+      return {
+          message: 'Packs not yet loaded',
+          packs: {}
+      }
+  },
+  created: function() {
+      this.get();
   },
   methods: {
+      get: function () {
+          this.$http.get('/data/site.json')
+            .then(function (data) {
+                this.$set(this.packs, 'items', data.body);
+                this.$set(this, 'message', 'Packs loaded');
+            },function(err) {
+                this.$set('message', 'There was an error');
+            });
+      },
       expandYear: function(event) {
           if ($(event.target).parents('ol').hasClass('packContents')) return true; // if clicking a child, don't close it
 
@@ -47,15 +47,26 @@ var app = new Vue({
   }
 });
 
-app.packs.get();
+const routes = [
+  { path: '/year', component: Vue.component('years') },
+]
 
-$(document).ready(function(){
-    // for right now this seems like a bit much
-    // $.protip({
-    //     defaults: {
-    //         position: 'top',
-    //         skin: 'square',
-    //         size: 'tiny'
-    //     }
-    // });
-});
+const router = new VueRouter({
+  routes // short for routes: routes
+})
+
+const app = new Vue({
+  router
+}).$mount('#app')
+
+
+// $(document).ready(function(){
+//     // for right now this seems like a bit much
+//     // $.protip({
+//     //     defaults: {
+//     //         position: 'top',
+//     //         skin: 'square',
+//     //         size: 'tiny'
+//     //     }
+//     // });
+// });
