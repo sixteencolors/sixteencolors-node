@@ -59,17 +59,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-var sequelize = new Sequelize('sixteencolors-node', 'sixteencolors', '77WTYEW50uBVK7!cL315', {
-  host: 'localhost',
-  dialect: 'mssql',
 
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  },
-
-});
 
 
 module.exports = app;
