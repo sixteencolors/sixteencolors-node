@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var Sequelize = require('sequelize');
 var lessMiddleware = require('less-middleware');
+var history = require('connect-history-api-fallback');
+
 
 var index = require('./routes/index');
 var importer = require('./routes/importer');
@@ -30,6 +32,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+// app.use(history()); // allow single page navigation
 app.use(lessMiddleware(path.join(__dirname, "public")));
 
 app.use(express.static(path.join(__dirname, 'public')));

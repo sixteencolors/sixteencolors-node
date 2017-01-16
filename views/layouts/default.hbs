@@ -31,8 +31,7 @@
   <div id="app">
     <header>
         <h1>Sixteen Colors ANSI Art and ASCII Art Archive</h1>
-        <router-link to="/year">Packs</router-link>
-        <router-link to="/bar">Go to Bar</router-link>
+        <router-link :to="{ name: 'years'}">Packs</router-link>
     </header>
     <div id="content">
         <router-view></router-view>

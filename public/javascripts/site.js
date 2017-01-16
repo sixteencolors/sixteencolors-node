@@ -1,20 +1,74 @@
+Vue.component('year', {
+    template: '#year-template',
+    data: function() {
+        return {
+            // TODO: Use vuex to manage state rather than grabbing each time
+            message: 'Year loaded',
+            packs: {}
+        }
+    },
+    created: function() {
+        this.get();
+    },
+    methods: {
+        get: function() {
+            this.$http.get('/data/site.json')
+                .then(function(data) {
+                    this.$set(this, 'packs', data.body[this.$route.params.year]);
+                    this.$set(this, 'message', 'Packs loaded');
+                }, function(err) {
+                    this.$set('message', 'There was an error');
+                });
+        },
+        expandPack: function(event) {
+            var el = $(event.target).parent('li');
+            router.push({ name: 'pack', params:  { year: this.$route.params.year, pack: el.data('pack') } });
+        }
+    }
+});
+Vue.component('pack', {
+    template: '#pack-template',
+    data: function() {
+        return {
+            // TODO: Use vuex to manage state rather than grabbing each time
+            message: 'Pack not loaded',
+            files: {}
+        }
+    },
+    created: function() {
+        this.get();
+    },
+    methods: {
+        get: function() {
+            this.$http.get('/data/sixteencolors.json')
+                .then(function(data) {
+                    this.$set(this, 'files', data.body[this.$route.params.year][this.$route.params.pack].files);
+                    this.$set(this, 'message', 'Pack loaded');
+                }, function(err) {
+                    this.$set('message', 'There was an error: ' + err);
+                });
+        }
+    }
+});
 Vue.component('years', {
   template: '#years-template',
   data: function () {
       return {
           message: 'Packs not yet loaded',
-          packs: {}
+          years: {}
       }
   },
   created: function() {
       this.get();
   },
+  updated: function() {
+  },
   methods: {
       get: function () {
           this.$http.get('/data/site.json')
             .then(function (data) {
-                this.$set(this.packs, 'items', data.body);
-                this.$set(this, 'message', 'Packs loaded');
+                this.$set(this, 'years', data.body);
+                this.$set(this, 'message', 'Years loaded');
             },function(err) {
                 this.$set('message', 'There was an error');
             });
@@ -33,25 +87,26 @@ Vue.component('years', {
 
           // close all packs just in case
           $("ol.packContents > li").removeClass('expanded');
+          router.push({ name: 'year', params:  { year: el.data('year') } });
           
       },
-      expandPack: function(event) {
-          var el = $(event.target).parent('li');
-          el.toggleClass('expanded');
-          $("ol.packContents > li:not([data-pack='" + el.data('pack') + "'])").removeClass('expanded');
-
-          var yearEl = el.parents('ol.year > li');
-          yearEl.addClass('expanded');          
-          $("ol.year > li:not([data-year='" + yearEl.data('year') + "'])").removeClass('expanded');
-      }
+        expandPack: function(event) {
+            var el = $(event.target).parent('li');
+            el.toggleClass('expanded');
+            var yearEl = el.parents('ol.year > li');
+            router.push({ name: 'pack', params:  { year: yearEl.data('year'), pack: el.data('pack') } });
+        }
   }
 });
 
 const routes = [
-  { path: '/year', component: Vue.component('years') },
+  { path: '/year', name: 'years', component: Vue.component('years') },
+  { path: '/year/:year', name: 'year', component: Vue.component('year') },
+  { path: '/year/:year/pack/:pack', name: 'pack', component: Vue.component('pack') }
 ]
 
 const router = new VueRouter({
+  mode: 'history',
   routes // short for routes: routes
 })
 
@@ -70,3 +125,9 @@ const app = new Vue({
 //     //     }
 //     // });
 // });
+
+// detect back button
+$(window).bind('popstate',  
+    function(event) {
+        console.log('pop: ' + event.state);
+    });
