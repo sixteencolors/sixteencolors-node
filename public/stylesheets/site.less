@@ -63,9 +63,14 @@ ol.year {
     margin-bottom: 1em;
   }
   > li.expanded {
-    width: calc(100% - 2em);
+    // width: calc(100% - 2em);
     background-color: @secondary;
     color: @secondary_highlight;
+    width: 100%;
+    min-height: 100%;
+    position: absolute;
+    left: 0;
+    top:4em;
     ol.packContents {
       -moz-column-width: 20em;
       -moz-columns: 20em;
