@@ -52,137 +52,176 @@ header {
   padding: 1em 1em;
 }
 
-ol.year {
-  > li {
-    width: 15em;
-    display: inline-block;
-    vertical-align: top;
-    margin-right: 1em;
-    background-color: @primary_highlight;
-    padding: 1em;
-    margin-bottom: 1em;
+#content 
+{
+  padding: 1em 1em 0 1em;
+  h1 {
+    color: @primary_highlight;
   }
-  > li.expanded {
-    // width: calc(100% - 2em);
-    background-color: @secondary;
-    color: @secondary_highlight;
-    width: 100%;
-    min-height: 100%;
-    position: absolute;
-    left: 0;
-    top:4em;
-    ol.packContents {
-      -moz-column-width: 20em;
-      -moz-columns: 20em;
-      -webkit-columns: 20em;
-      columns: 20em;
+  h2 {
+    color: @gray_i;
+  }
+  div#status {
+    background: @black_i;
+    margin-left: -1em;
+    margin-right: -1em;
+    top: -1em;
+    position: relative;
+    padding:  1em;
+    color: @gray;
+    text-align: right;
+  }
 
-      li {
-        width: auto;
-        text-indent: 0;
-        overflow: auto;
-        white-space: normal;
-        height: auto;
-        line-height: 16px !important;
-        font-size: 8px !important;
-        background-color: transparent;
-        float: none;
+  ol.year {
+    > li {
+      width: 15em;
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 1em;
+      background-color: @primary_highlight;
+      padding: 1em;
+      margin-bottom: 1em;
+      h1 {
+        color: @secondary;
       }
+    }
+    > li.expanded {
+      // width: calc(100% - 2em);
+      background-color: @secondary;
+      color: @secondary_highlight;
+      width: 100%;
+      min-height: 100%;
+      position: absolute;
+      left: 0;
+      top:4em;
+      ol.packContents {
+        -moz-column-width: 20em;
+        -moz-columns: 20em;
+        -webkit-columns: 20em;
+        columns: 20em;
 
-      li.expanded {
-        background-color: @black;
-        color: @gray_i;
-        > ol {
-          > li {
-            color: @black_i;
+        li {
+          width: auto;
+          text-indent: 0;
+          overflow: auto;
+          white-space: normal;
+          height: auto;
+          line-height: 16px !important;
+          font-size: 8px !important;
+          background-color: transparent;
+          float: none;
+        }
+
+        li.expanded {
+          background-color: @black;
+          color: @gray_i;
+          > ol {
+            > li {
+              color: @black_i;
+            }
           }
         }
       }
     }
-  }
-  > li:hover {
-    background-color: @secondary;
-    color: @secondary_highlight;
-    > ol {
-      > li {
-        background-color: @secondary_highlight;
-      }
-      > li:hover {
-        background-color: @black;
-      }
-    }
-  }
-  ol.packContents {
-    margin-top: 1em;
-    li {
-      width: 4px;
-      /* height:  1em; */
-      float: left;
-      text-indent: 100%;
-      white-space: nowrap;
-      overflow: hidden;
-      background-color: @primary;
-      margin-right: @gutter;
-      margin-bottom: @gutter;
-      height: 4px;
-      line-height: 2px !important;
-      font-size: 2px !important;
-      ol.files {
-        display:none;
-      }
-    }
-    li.expanded {
-      ol.files {
-        display: block;
-      }
-    }
-    li:hover {
-      cursor: pointer;
+    > li:hover {
       background-color: @secondary;
+      color: @secondary_highlight;
+      > ol {
+        > li {
+          background-color: @secondary_highlight;
+        }
+        > li:hover {
+          background-color: @black;
+        }
+      }
+    }
+    ol.packContents {
+      margin-top: 1em;
+      li {
+        width: 4px;
+        /* height:  1em; */
+        float: left;
+        text-indent: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        background-color: @primary;
+        margin-right: @gutter;
+        margin-bottom: @gutter;
+        height: 4px;
+        line-height: 2px !important;
+        font-size: 2px !important;
+        ol.files {
+          display:none;
+        }
+      }
+      li.expanded {
+        ol.files {
+          display: block;
+        }
+      }
+      li:hover {
+        cursor: pointer;
+        background-color: @secondary;
+      }
     }
   }
-}
 
-ol.files {
-  white-space: nowrap;
-  position: fixed;
-  bottom: 0;
-  > li {
+  ol.files {
+    white-space: nowrap;
+    position: fixed;
+    bottom: 0;
+    > li {
+        background-color: @black;
+        margin-right: 1em;
+        margin-bottom: 1em;
+        color:@gray_i;
+        display: inline-block;
+        text-transform: uppercase;
+        vertical-align: bottom;
+        max-height: 20em;
+        min-height: 50px;
+        min-width: 80px;
+        white-space: normal;
+        img {
+          display: none;
+        }
+        span {
+          overflow-wrap: break-word;
+          word-wrap: break-word;
+          -ms-word-break: break-all;    /* This is the dangerous one in WebKit, as it breaks things wherever */
+          word-break: break-all;    /* Instead use this non-standard one: */
+          word-break: break-word;      /* Adds a hyphen where the word breaks, if supported (No Blink) */
+          background: @gray;
+          display: block;
+          opacity: 0.5;
+          padding-left: 1em;
+          padding-right: 1em;
+        }
+    }
+    > li.active {
+      max-height: 100%;
+      margin-bottom: 2em;
+    }
+    
+  }
+
+  #selected-file {
+    img {
       background-color: @black;
-      margin-right: 1em;
-      margin-bottom: 1em;
-      color:@gray_i;
-      display: inline-block;
-      text-transform: uppercase;
-      vertical-align: bottom;
-      max-height: 20em;
-      min-height: 3em;
-      min-width: 80px;
-      white-space: normal;
-      img {
-        display: none;
-      }
-      span {
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-        -ms-word-break: break-all;    /* This is the dangerous one in WebKit, as it breaks things wherever */
-        word-break: break-all;    /* Instead use this non-standard one: */
-        word-break: break-word;      /* Adds a hyphen where the word breaks, if supported (No Blink) */
-        background: @gray;
-        display: block;
-        opacity: 0.5;
-        padding-left: 1em;
-        padding-right: 1em;
-      }
+      border: 0;
+      margin-left: 42em;
+    }
+    section#meta {
+      width: 40em;
+      position: fixed;
+    }  
   }
-  > li.active {
-    max-height: 100%;
-    margin-bottom: 2em;
-  }
-  
 }
 
-#content {padding: 1em 1em 0 1em;}
+
+pre {
+  color: @gray;
+}
 
 .protip-container.protip-skin-square.protip-skin-square--size-tiny.protip-skin-square--scheme-pro.protip-show {
   background-color: @tertiary;

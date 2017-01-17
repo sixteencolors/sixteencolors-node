@@ -59,8 +59,21 @@
         <div id="status">
             \{{message}}
         </div>
+        <div id="selected-file" v-if="selected" @selectPackFile="changeSelected">
+            <section id="meta">
+                <h1>\{{filename}}</h1>            
+                <h2>
+                    <span v-if="selected.sauce !== null && selected.sauce.title !== ''">\{{selected.sauce.title}}</span>
+                    <span v-else>\{{selected.filename}}</span> 
+                    <span v-if="selected.sauce !== null && selected.sauce.author !== ''">by \{{selected.sauce.author}}</span>
+                </h2>
+                <pre>\{{selected}}</pre>
+            </section>
+            <img v-if="selected.sauce !== null" v-bind:style="{ width: (selected.sauce.columns * 8) + 'px', height: (selected.sauce.rows * 16) + 'px'}" />
+            <img v-else style="width: 640px; height: 400px;" />
+        </div>
         <ol class="files">
-            <pack-file v-for="(file, f, i) in files" :file="file" :filename="f"></pack-file>
+            <pack-file v-for="(file, f, i) in files" :file="file" :filename="f" :selected="false"></pack-file>
         </ol>
     </div>
   </script>
@@ -73,9 +86,10 @@
         v-on:mouseover="file.active = true"
         v-on:mouseout="file.active = false"
         v-on:click="select"
-        v-bind:style="{ width: file.sauce !== null ? file.sauce.columns + 'px' : '80px', height: file.sauce !== null ? file.sauce.rows + 'px' : '25px' }">
+        v-bind:style="{ width: file.sauce !== null ? file.sauce.columns + 'px' : '80px', height: file.sauce !== null ? (file.sauce.rows * 2) + 'px' : '50px' }">
         <span class="filename">\{{filename}}</span>
         <img  />
     </li>
   </script>
+
 {{/contentFor}}

@@ -41,6 +41,9 @@ Vue.component('pack', {
     created: function() {
         this.get();
     },
+    watch: {
+        '$route': 'changeSelected'
+    },
     methods: {
         get: function() {
             this.$http.get('/data/sixteencolors.json')
@@ -50,6 +53,10 @@ Vue.component('pack', {
                     for (file in this.files) {
                         this.$set(this.files[file], 'active', false);
                         this.$set(this.files[file], 'selected', false);
+                    }
+
+                    if (this.$route.params.file !== undefined) {
+                        this.$set(this.files[this.$route.params.file], 'selected', true);
                     }
                     this.$set(this, 'message', 'Pack loaded');
                 }, function(err) {
@@ -63,16 +70,40 @@ Vue.component('pack', {
                 }
             }
             return undefined;
+        }, changeSelected: function() {
+            for (file in this.files) {
+                this.$set(this.files[file], 'active', false);
+                this.$set(this.files[file], 'selected', false);
+            }
+
+            if (this.$route.params.file !== undefined) {
+                this.$set(this.files[this.$route.params.file], 'selected', true);
+            }
+        }
+    }, computed: {
+        selected: function() {
+            for (var file in this.files) {
+                if (this.files[file].selected) {
+                    this.files[file].filename = file;
+                    return this.files[file];
+                }
+            }
+            return undefined;
         }
     }
 });
+
 Vue.component('packFile', {
-    props: ['file', 'filename'],
+    props: ['file', 'filename', 'selected'],
     template: '#pack-file-template',
     methods: {
         select: function() {
-            var el = $(event.target).parent('li');
-            router.push({ name: 'pack-file', params:  { year: this.$route.params.year, pack: this.$route.params.pack, file: el.find('span').text() } });
+          if (event.target.nodeName == "LI") {
+            el = $(event.target);
+          } else {
+            el = $(event.target).parents('li');
+          }
+          router.push({ name: 'pack-file', params:  { year: this.$route.params.year, pack: this.$route.params.pack, file: el.find('span').text() } });
             
         }
     }

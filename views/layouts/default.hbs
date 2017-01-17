@@ -34,7 +34,9 @@
         <router-link :to="{ name: 'years'}">Packs</router-link>
     </header>
     <div id="content">
-        <router-view></router-view>
+        <transition>
+            <router-view></router-view>
+        </transition>
     </div>
   </div>
 
