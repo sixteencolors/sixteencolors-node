@@ -52,9 +52,35 @@ header {
   padding: 1em 1em;
 }
 
+#breadcrumbs {
+  position: relative;
+  background-color: @brown;
+  > li {
+    display: inline-block;
+    margin-right: 1em;
+    a {
+      text-decoration: none;
+      padding: 1em;
+      display: inline-block;
+      color: @brown_i;
+    }
+    a:hover {
+      background-color: @brown_i;
+      color: @brown;
+    }
+  }
+  > li:after {
+    content: '>';
+    padding-left: 1em;
+  }
+  > li:last-child:after {
+    content: '';
+  }
+}
+
 #content 
 {
-  padding: 1em 1em 0 1em;
+  padding: 0 1em;
   h1 {
     color: @primary_highlight;
   }
@@ -65,7 +91,6 @@ header {
     background: @black_i;
     margin-left: -1em;
     margin-right: -1em;
-    top: -1em;
     position: relative;
     padding:  1em;
     color: @gray;
@@ -206,6 +231,7 @@ header {
   }
 
   #selected-file {
+    margin-top: 2em;
     img {
       background-color: @black;
       border: 0;

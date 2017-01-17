@@ -31,12 +31,10 @@
   <div id="app">
     <header>
         <h1>Sixteen Colors ANSI Art and ASCII Art Archive</h1>
-        <router-link :to="{ name: 'years'}">Packs</router-link>
     </header>
+    <breadcrumbs></breadcrumbs>
     <div id="content">
-        <transition>
-            <router-view></router-view>
-        </transition>
+        <router-view></router-view>
     </div>
   </div>
 

@@ -1,3 +1,25 @@
+Vue.component('breadcrumbs', {
+    template: '#breadcrumbs-template',
+    data: function() {
+        return { path: [] }
+    }, methods: {
+        get: function() {
+            var path = [];
+            if (this.$route.params.year !== undefined) {
+                path.push( { title: 'Packs', url: '/' });
+                path.push( { title: this.$route.params.year, url: '/year/' + this.$route.params.year } );
+            }
+            if (this.$route.params.pack !== undefined) path.push( { title: this.$route.params.pack, url: '/year/' + this.$route.params.year + '/' + this.$route.params.pack } );
+            if (this.$route.params.file !== undefined) path.push( { title: this.$route.params.file, url: '/year/' + this.$route.params.year + '/' + this.$route.params.pack + '/' + this.$route.params.file } );
+
+            this.$set(this, 'path', path);
+        }
+    }, created: function() {
+        this.get();
+    }, watch: {
+        '$route': 'get'
+    }
+});
 Vue.component('year', {
     template: '#year-template',
     data: function() {
@@ -158,7 +180,7 @@ Vue.component('years', {
 });
 
 const routes = [
-  { path: '/year', name: 'years', component: Vue.component('years') },
+  { path: '/', name: 'years', component: Vue.component('years'), alias: '/year' },
   { path: '/year/:year', name: 'year', component: Vue.component('year') },
   { path: '/year/:year/:pack', name: 'pack', component: Vue.component('pack') },
   { path: '/year/:year/:pack/:file', name: 'pack-file', component: Vue.component('pack') },
