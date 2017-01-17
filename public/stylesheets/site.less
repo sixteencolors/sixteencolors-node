@@ -83,21 +83,26 @@ header {
   padding: 0 1em;
   h1 {
     color: @primary_highlight;
+    padding-bottom: 1em;
   }
   h2 {
     color: @gray_i;
+    padding-bottom: 1em;
   }
   div#status {
     background: @black_i;
     margin-left: -1em;
     margin-right: -1em;
-    position: relative;
+    position: fixed;
     padding:  1em;
     color: @gray;
     text-align: right;
+    bottom: 0;
+    width: calc(100% - 1em);
   }
 
   ol.year {
+    padding-top: 2em;
     > li {
       width: 15em;
       display: inline-block;
@@ -194,7 +199,7 @@ header {
   ol.files {
     white-space: nowrap;
     position: fixed;
-    bottom: 0;
+    bottom: 4em;
     > li {
         background-color: @black;
         margin-right: 1em;

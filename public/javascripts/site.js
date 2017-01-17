@@ -72,14 +72,19 @@ Vue.component('pack', {
                 .then(function(data) {
                     this.$set(this, 'filename', this.getFullFilename( data.body[this.$route.params.year], this.$route.params.pack));
                     this.$set(this, 'files', data.body[this.$route.params.year][this.filename].files);
+
                     for (file in this.files) {
+                        // if we are on the root pack, send us to the first file
+                        if (this.$route.params.file === undefined) {
+                            router.push({ name: 'pack-file', params:  { year: this.$route.params.year, pack: this.$route.params.pack, file: file } });
+                        }
                         this.$set(this.files[file], 'active', false);
                         this.$set(this.files[file], 'selected', false);
                     }
 
                     if (this.$route.params.file !== undefined) {
                         this.$set(this.files[this.$route.params.file], 'selected', true);
-                    }
+                    } 
                     this.$set(this, 'message', 'Pack loaded');
                 }, function(err) {
                     this.$set('message', 'There was an error: ' + err);
