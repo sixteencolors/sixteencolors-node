@@ -49,6 +49,7 @@ Vue.component('pack', {
                     this.$set(this, 'files', data.body[this.$route.params.year][this.filename].files);
                     for (file in this.files) {
                         this.$set(this.files[file], 'active', false);
+                        this.$set(this.files[file], 'selected', false);
                     }
                     this.$set(this, 'message', 'Pack loaded');
                 }, function(err) {
@@ -67,7 +68,14 @@ Vue.component('pack', {
 });
 Vue.component('packFile', {
     props: ['file', 'filename'],
-    template: '#pack-file-template'
+    template: '#pack-file-template',
+    methods: {
+        select: function() {
+            var el = $(event.target).parent('li');
+            router.push({ name: 'pack-file', params:  { year: this.$route.params.year, pack: this.$route.params.pack, file: el.find('span').text() } });
+            
+        }
+    }
 });
 Vue.component('years', {
   template: '#years-template',
@@ -121,7 +129,8 @@ Vue.component('years', {
 const routes = [
   { path: '/year', name: 'years', component: Vue.component('years') },
   { path: '/year/:year', name: 'year', component: Vue.component('year') },
-  { path: '/year/:year/pack/:pack', name: 'pack', component: Vue.component('pack') }
+  { path: '/year/:year/:pack', name: 'pack', component: Vue.component('pack') },
+  { path: '/year/:year/:pack/:file', name: 'pack-file', component: Vue.component('pack') },
 ]
 
 const router = new VueRouter({

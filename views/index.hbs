@@ -72,6 +72,7 @@
         v-bind:class="{ active: file.active === true }"
         v-on:mouseover="file.active = true"
         v-on:mouseout="file.active = false"
+        v-on:click="select"
         v-bind:style="{ width: file.sauce !== null ? file.sauce.columns + 'px' : '80px', height: file.sauce !== null ? file.sauce.rows + 'px' : '25px' }">
         <span class="filename">\{{filename}}</span>
         <img  />
