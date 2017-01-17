@@ -36,14 +36,45 @@
     </div>
   </script>
 
+  {{!--{
+    "title": "#prayforparis",
+    "author": "mattmatthew",
+    "group": "Blocktronics",
+    "date": {
+        "year": 2015,
+        "month": 11,
+        "day": 13
+    },
+    "columns": 80,
+    "rows": 41,
+    "dataType": "Character",
+    "fileType": "ANSi",
+    "nonBlink": "On",
+    "letterSpace": "Eight Pixels",
+    "aspectRatio": "Modern Aspect",
+    "fontName": "IBM VGA"
+  }--}}
   <script type="text/x-template" id="pack-template">
     <div id="app">
         <div id="status">
             \{{message}}
         </div>
         <ol class="files">
-            <li v-for="(file, f, i) in files">\{{f}}</li>
+            <pack-file v-for="(file, f, i) in files" :file="file" :filename="f"></pack-file>
         </ol>
     </div>
+  </script>
+
+  <script type="text/x-template" id="pack-file-template">
+    <li 
+        v-bind:data-columns="file.sauce !== null ? file.sauce.columns : -1"  
+        v-bind:data-rows="file.sauce !== null ? file.sauce.rows : -1"
+        v-bind:class="{ active: file.active === true }"
+        v-on:mouseover="file.active = true"
+        v-on:mouseout="file.active = false"
+        v-bind:style="{ width: file.sauce !== null ? file.sauce.columns + 'px' : '80px', height: file.sauce !== null ? file.sauce.rows + 'px' : '25px' }">
+        <span class="filename">\{{filename}}</span>
+        <img  />
+    </li>
   </script>
 {{/contentFor}}

@@ -12,7 +12,7 @@ Vue.component('year', {
     },
     methods: {
         get: function() {
-            this.$http.get('/data/site.json')
+            this.$http.get('/data/sixteencolors.json')
                 .then(function(data) {
                     this.$set(this, 'packs', data.body[this.$route.params.year]);
                     this.$set(this, 'message', 'Packs loaded');
@@ -22,7 +22,9 @@ Vue.component('year', {
         },
         expandPack: function(event) {
             var el = $(event.target).parent('li');
-            router.push({ name: 'pack', params:  { year: this.$route.params.year, pack: el.data('pack') } });
+            // if there is ever an issue loading a pack, it is possible it is because it has a file extension
+            // that is not 3 characters
+            router.push({ name: 'pack', params:  { year: this.$route.params.year, pack: el.data('pack').slice(0, -4) } });
         }
     }
 });
@@ -32,7 +34,8 @@ Vue.component('pack', {
         return {
             // TODO: Use vuex to manage state rather than grabbing each time
             message: 'Pack not loaded',
-            files: {}
+            files: {},
+            filename: ''
         }
     },
     created: function() {
@@ -42,13 +45,29 @@ Vue.component('pack', {
         get: function() {
             this.$http.get('/data/sixteencolors.json')
                 .then(function(data) {
-                    this.$set(this, 'files', data.body[this.$route.params.year][this.$route.params.pack].files);
+                    this.$set(this, 'filename', this.getFullFilename( data.body[this.$route.params.year], this.$route.params.pack));
+                    this.$set(this, 'files', data.body[this.$route.params.year][this.filename].files);
+                    for (file in this.files) {
+                        this.$set(this.files[file], 'active', false);
+                    }
                     this.$set(this, 'message', 'Pack loaded');
                 }, function(err) {
                     this.$set('message', 'There was an error: ' + err);
                 });
+        },
+        getFullFilename: function(prop, value) {
+            for (var p in prop) {
+                if (p.indexOf(value) == 0) {
+                    return p;
+                }
+            }
+            return undefined;
         }
     }
+});
+Vue.component('packFile', {
+    props: ['file', 'filename'],
+    template: '#pack-file-template'
 });
 Vue.component('years', {
   template: '#years-template',
