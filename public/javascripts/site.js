@@ -25,21 +25,26 @@ Vue.component('year', {
     data: function() {
         return {
             // TODO: Use vuex to manage state rather than grabbing each time
-            message: 'Year loaded',
+            message: this.$route.params.year + ' loading',
             packs: {}
         }
     },
     created: function() {
         this.get();
+    }, updated: function() {
+        this.$set(this, 'loaded', true);
+        
     },
     methods: {
         get: function() {
             this.$http.get('/data/sixteencolors.json')
                 .then(function(data) {
                     this.$set(this, 'packs', data.body[this.$route.params.year]);
-                    this.$set(this, 'message', 'Packs loaded');
+                    this.$set(this, 'message', this.$route.params.year + ' loaded');
+                    this.$set(this, 'loaded', true);
                 }, function(err) {
-                    this.$set('message', 'There was an error');
+                    this.$set('message', 'There was an error: ' + err);
+                    this.$set(this, 'loaded', true);
                 });
         },
         expandPack: function(event) {
@@ -55,13 +60,17 @@ Vue.component('pack', {
     data: function() {
         return {
             // TODO: Use vuex to manage state rather than grabbing each time
-            message: 'Pack not loaded',
+            message: this.$route.params.pack + ' loading',
             files: {},
-            filename: ''
+            filename: '',
+            loaded: false
         }
     },
     created: function() {
         this.get();
+    },
+    updated: function() {
+        this.$set(this, 'loaded', true);
     },
     watch: {
         '$route': 'changeSelected'
@@ -85,9 +94,11 @@ Vue.component('pack', {
                     if (this.$route.params.file !== undefined) {
                         this.$set(this.files[this.$route.params.file], 'selected', true);
                     } 
-                    this.$set(this, 'message', 'Pack loaded');
+                    this.$set(this, 'message', this.$route.params.pack + ' loaded');
+                    this.$set(this, 'loaded', true);
                 }, function(err) {
                     this.$set('message', 'There was an error: ' + err);
+                    this.$set(this, 'loaded', true);
                 });
         },
         getFullFilename: function(prop, value) {
@@ -139,7 +150,7 @@ Vue.component('years', {
   template: '#years-template',
   data: function () {
       return {
-          message: 'Packs not yet loaded',
+          message: 'Years loading',
           years: {}
       }
   },
@@ -147,6 +158,7 @@ Vue.component('years', {
       this.get();
   },
   updated: function() {
+    this.$set(this, 'loaded', true);
   },
   methods: {
       get: function () {
@@ -154,8 +166,10 @@ Vue.component('years', {
             .then(function (data) {
                 this.$set(this, 'years', data.body);
                 this.$set(this, 'message', 'Years loaded');
+                this.$set(this, 'loaded', true);
             },function(err) {
                 this.$set('message', 'There was an error');
+                this.$set(this, 'loaded', true);
             });
       },
       expandYear: function(event) {

@@ -249,9 +249,23 @@ header {
   }
 }
 
+#loader {
+  animation: loader 5s steps(20) infinite;
+  overflow:hidden;
+  white-space: nowrap;
+  float: left;
+}
 
+@keyframes loader {
+  from {
+    width: 0em;
+  }
+  to { 
+    width: calc(8px * 20);
+  }
+}
 pre {
-  color: @gray;
+  color: @black;
 }
 
 .protip-container.protip-skin-square.protip-skin-square--size-tiny.protip-skin-square--scheme-pro.protip-show {

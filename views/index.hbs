@@ -8,6 +8,7 @@
     <div>
         <div id="status">
             \{{message}}
+            <div id="loader" v-show="!loaded">°°°°°±±±±±²²²²²ÛÛÛÛÛ</div>
         </div>
         <ol class="year">
             <li v-for="(year, y, i) in years" v-bind:data-year="y" v-on:click="expandYear">
@@ -29,6 +30,7 @@
     <div>
         <div id="status">
             \{{message}}
+            <div id="loader" v-show="!loaded">°°°°°±±±±±²²²²²ÛÛÛÛÛ</div>
         </div>
         <ol class="year">
             <li v-for="(pack, p, i) in packs" v-on:mouseover="message = p" v-bind:data-pt-title="p" v-bind:data-pack="p" v-on:click="expandPack">
@@ -63,6 +65,7 @@
     <div>
         <div id="status">
             \{{message}}
+            <div id="loader" v-show="!loaded">°°°°°±±±±±²²²²²ÛÛÛÛÛ</div>
         </div>
         <div id="selected-file" v-if="selected" @selectPackFile="changeSelected">
             <section id="meta">
