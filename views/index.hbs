@@ -80,9 +80,11 @@
             <img v-if="selected.sauce !== null" v-bind:style="{ width: (selected.sauce.columns * 8) + 'px', height: (selected.sauce.rows * 16) + 'px'}" />
             <img v-else style="width: 640px; height: 400px;" />
         </div>
-        <ol class="files">
-            <pack-file v-for="(file, f, i) in files" :file="file" :filename="f" :selected="false"></pack-file>
-        </ol>
+        <div class="fileContainer">
+            <ol class="files">
+                <pack-file v-for="(file, f, i) in files" :file="file" :filename="f" :selected="false"></pack-file>
+            </ol>
+        </div>
     </div>
   </script>
 
@@ -90,7 +92,7 @@
     <li 
         v-bind:data-columns="file.sauce !== null ? file.sauce.columns : -1"  
         v-bind:data-rows="file.sauce !== null ? file.sauce.rows : -1"
-        v-bind:class="{ active: file.active === true }"
+        v-bind:class="{ active: file.active === true, selected: file.selected }"
         v-on:mouseover="file.active = true"
         v-on:mouseout="file.active = false"
         v-on:click="select"

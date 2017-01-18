@@ -68,6 +68,7 @@ Vue.component('pack', {
     },
     created: function() {
         this.get();
+        window.addEventListener('scroll', this.handleScroll);
     },
     updated: function() {
         this.$set(this, 'loaded', true);
@@ -94,7 +95,7 @@ Vue.component('pack', {
                     if (this.$route.params.file !== undefined) {
                         this.$set(this.files[this.$route.params.file], 'selected', true);
                     } 
-                    this.$set(this, 'message', this.$route.params.pack + ' loaded');
+                    this.$set(this, 'message', Object.keys(this.files).length + ' files');
                     this.$set(this, 'loaded', true);
                 }, function(err) {
                     this.$set('message', 'There was an error: ' + err);
@@ -116,6 +117,22 @@ Vue.component('pack', {
 
             if (this.$route.params.file !== undefined) {
                 this.$set(this.files[this.$route.params.file], 'selected', true);
+            }
+        }, handleScroll : function() {
+            if (Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                // when you scroll to the bottom of the page, load the next ansi
+                var found = false;
+                for (var file in this.files) {
+                    if (found == true) {
+                        $('html,body').animate({scrollTop:0},0);
+                        router.push({ name: 'pack-file', params:  { year: this.$route.params.year, pack: this.$route.params.pack, file: file } });
+                        return;
+                    }
+                    if (file === this.$route.params.file) {
+                        found = true;
+                    }
+                }
+                
             }
         }
     }, computed: {
@@ -226,8 +243,19 @@ const app = new Vue({
 //     // });
 // });
 
-// detect back button
-$(window).bind('popstate',  
-    function(event) {
-        console.log('pop: ' + event.state);
-    });
+
+var cntWd, sldWd, tb;
+	$(function() {
+		
+		
+		$('.files').mousemove(function(e)
+		{
+            cntWd = $('.fileContainer').innerWidth();
+            tb = $('.files');
+            sldWd = tb.outerWidth();
+			tb.css({left: ((cntWd - sldWd)*((e.pageX / cntWd).toFixed(3))).toFixed(1) +"px" });
+ 		});
+});    
+
+window.onscroll = function(ev) {
+};

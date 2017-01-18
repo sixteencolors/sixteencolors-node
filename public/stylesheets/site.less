@@ -196,43 +196,55 @@ header {
     }
   }
 
-  ol.files {
-    white-space: nowrap;
-    position: fixed;
+  .fileContainer {
+    overflow: hidden;
     bottom: 4em;
-    > li {
-        background-color: @black;
+    position: fixed;
+    width: calc(100vw);
+    height: 200px;    
+    ol.files {
+      white-space: nowrap;
+      position: absolute;
+      height: 200px;
+      > li {
+        background-color: #000;
         margin-right: 1em;
         margin-bottom: 1em;
-        color:@gray_i;
+        color: #fff;
         display: inline-block;
         text-transform: uppercase;
         vertical-align: bottom;
-        max-height: 20em;
+        max-height: calc(200px + 2em);
         min-height: 50px;
         min-width: 80px;
         white-space: normal;
-        img {
-          display: none;
-        }
+          img {
+            display: none;
+          }
+          span {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            -ms-word-break: break-all;    /* This is the dangerous one in WebKit, as it breaks things wherever */
+            word-break: break-all;    /* Instead use this non-standard one: */
+            word-break: break-word;      /* Adds a hyphen where the word breaks, if supported (No Blink) */
+            background: @gray;
+            display: block;
+            opacity: 0.5;
+            padding-left: 1em;
+            padding-right: 1em;
+          }
+      }
+      > li.active {
+        max-height: 100%;
+        margin-bottom: 2em;
+      }
+      > li.selected {
         span {
-          overflow-wrap: break-word;
-          word-wrap: break-word;
-          -ms-word-break: break-all;    /* This is the dangerous one in WebKit, as it breaks things wherever */
-          word-break: break-all;    /* Instead use this non-standard one: */
-          word-break: break-word;      /* Adds a hyphen where the word breaks, if supported (No Blink) */
-          background: @gray;
-          display: block;
-          opacity: 0.5;
-          padding-left: 1em;
-          padding-right: 1em;
+          background-color: @secondary;
+          color: @secondary_highlight;
         }
+      }
     }
-    > li.active {
-      max-height: 100%;
-      margin-bottom: 2em;
-    }
-    
   }
 
   #selected-file {
